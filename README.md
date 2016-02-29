@@ -39,7 +39,7 @@ class ExampleModel extends Model
 	 * Model columns to be hidden on views
 	 * @var array
 	 */
-	protected $hidden   = ['created_at', 'updated_at', 'deleted_at'];
+	protected $hidden   = ['created_at', 'updated_at'];
 
 	/**
 	 * Laravel Mass Assigment protection
@@ -48,10 +48,9 @@ class ExampleModel extends Model
 	protected $fillable =  ['column1', 'column2'];
 
 	/**
-	 * GroceryCrud Model trait
+	 * LaraCrud Model trait
 	 */
 	use LaraCrudModel;
-	use SoftDeletes;
 
 }
 ```
@@ -70,15 +69,34 @@ use LaraCrud\LaraCrudController;
 
 class ExampleController extends Controller
 {
-
+	/**
+	 * LaraCrud Controller Trait
+	 */
 	use LaraCrudController;
-
+	
+	/**
+	 * This variable will store the Model related to this controller.
+	 * @var Model
+	 */
 	protected $model;
-
+	
+	/**
+	 * This is the base route that will be used with REST methods
+	 * @type String
+	 */
 	protected $route = '/example';
 
+	/**
+	 * Name that will be displayed on form headers, session messages, pop up messages, etc.
+	 * @type String
+	 */
 	protected $crudName = 'Example';
-
+	
+	/**
+	 * Let IoC Container to resolve Model and assing it to variable.
+	 *
+	 * @param  Model ExampleModel $example
+	 */
 	public function __construct(ExampleModel $example)
 	{
 		$this->model = $example;
@@ -87,6 +105,13 @@ class ExampleController extends Controller
 }
 ```
 
+STEP 3:
+
+The routes will be like this:
+
+```php
+Route::resource('/example', 'ExampleController');
+```
 
 
 ## Contributing
