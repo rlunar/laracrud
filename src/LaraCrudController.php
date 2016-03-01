@@ -53,7 +53,7 @@ trait LaraCrudController
             'crudController' => end($class)
         ];
 
-        $inputs = $this->model->getInputs();
+        $inputs = LaraCrud::getInputs($this->model);
 
         return view('lara_crud::create', compact('inputs', 'crudData'));
     }
@@ -92,7 +92,7 @@ trait LaraCrudController
 
         $personal = $this->model->findOrFail($id);
 
-        $inputs = $this->model->getInputs($personal, true);
+        $inputs = LaraCrud::getInputs($this->model, $personal, true);
 
         return view('lara_crud::show', compact('personal', 'inputs', 'crudData'));
     }
@@ -113,7 +113,7 @@ trait LaraCrudController
         
         $personal = $this->model->findOrFail($id);
 
-        $inputs = $this->model->getInputs($personal);
+        $inputs = LaraCrud::getInputs($this->model, $personal);
 
         return view('lara_crud::edit', compact('personal', 'inputs', 'crudData'));
     }
@@ -155,6 +155,6 @@ trait LaraCrudController
      */
     public function getDropdowns()
     {
-        return response()->json($this->model->getForeignData());
+        return response()->json(LaraCrud::getForeignDataDropDown());
     }
 }

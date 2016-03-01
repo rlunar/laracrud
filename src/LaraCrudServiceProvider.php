@@ -13,7 +13,12 @@ class LaraCrudServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+    	// Load views for CRUD
         $this->loadViewsFrom(__DIR__.'/views', 'lara_crud');
+
+        $this->commands([
+		    Acme\MyCommand::class
+		]);
     }
 
     /**
@@ -23,6 +28,9 @@ class LaraCrudServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton('laracrud', function ($app) {
+            return new LaraCrud();
+        });
     }
 
 }
