@@ -108,7 +108,7 @@ abstract class LaraCrud
      */
     public static function getInputs(Model $model, $values = array(), $readonly = false)
     {
-        $tableRelationShips = self::getRelationShips($this);
+        $tableRelationShips = self::getRelationShips($model);
 
         $headers          = $model->getHeaders();
         $inputs           = array();
