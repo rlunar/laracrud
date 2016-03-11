@@ -55,7 +55,7 @@
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
 							<a href="{{ url($crudData['crudRoute']) }}"><button type="button" class="btn btn-default"><i class="glyphicon glyphicon-repeat"></i> Return</button></a>
-							<a href="{{ url($crudData['crudRoute'].'/'.$personal->id.'/edit') }}"><button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> Edit</button></a>
+							<a href="{{ url($crudData['crudRoute'].'/'.$record->id.'/edit') }}"><button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> Edit</button></a>
 						</div>
 					</div>
 				</form>

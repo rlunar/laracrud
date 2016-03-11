@@ -47,7 +47,7 @@
 				<h1>Edit {{ $crudData['crudName'] }}</h1>
 			</div>
 			<div class="col-md-12">
-				<form class="form-horizontal" method="POST" action="{{ url($crudData['crudRoute'].'/'.$personal->id) }}">
+				<form class="form-horizontal" method="POST" action="{{ url($crudData['crudRoute'].'/'.$record->id) }}">
 					<input name="_method" type="hidden" value="PUT">
 					{!! csrf_field() !!}
 					@foreach ($inputs as $input)
