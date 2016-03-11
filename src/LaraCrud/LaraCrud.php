@@ -4,6 +4,7 @@ namespace LaraCrud;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use LaraCrud\LaraCrud;
 
 abstract class LaraCrud
 {
@@ -71,7 +72,9 @@ abstract class LaraCrud
             foreach ($relationships as $relationship) {
                 if (in_array($relationship->COLUMN_NAME, array_keys($row))) {
                     $foreignData = self::getForeignData($relationship, $row[$relationship->COLUMN_NAME]);
-                    $row[$relationship->COLUMN_NAME] = $foreignData[0]->name;
+                    if (!empty($foreignData)) {
+                        $row[$relationship->COLUMN_NAME] = $foreignData[0]->name;                        
+                    }
                 }
             }
         }
