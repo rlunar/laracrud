@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "LaraCrud": "src/LaraCrud"
+            "LaraCrud\\": "src/LaraCrud"
         },
         "files": [
             "src/LaraCrud/helpers.php"
