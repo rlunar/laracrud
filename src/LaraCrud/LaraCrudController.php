@@ -33,7 +33,7 @@ trait LaraCrudController
         ];
         
         if (isset($this->views)) {
-            return view( $this->views . 'index', compact('table', 'crudData'));
+            return view( $this->views . '.index', compact('table', 'crudData'));
         } else {
             return view( 'lara_crud::index', compact('table', 'crudData'));
         }
@@ -50,7 +50,7 @@ trait LaraCrudController
         $inputs   = LaraCrud::getInputs($this->model);
 
         if (isset($this->views)) {
-            return view( $this->views . 'create', compact('inputs', 'crudData'));
+            return view( $this->views . '.create', compact('inputs', 'crudData'));
         } else {
             return view( 'lara_crud::create', compact('inputs', 'crudData'));
         }
@@ -88,7 +88,7 @@ trait LaraCrudController
         $inputs   = LaraCrud::getInputs($this->model, $record, true);
 
         if (isset($this->views)) {
-            return view( $this->views . 'show', compact('record', 'inputs', 'crudData'));
+            return view( $this->views . '.show', compact('record', 'inputs', 'crudData'));
         } else {
             return view( 'lara_crud::show', compact('record', 'inputs', 'crudData'));
         }
@@ -107,7 +107,7 @@ trait LaraCrudController
         $inputs   = LaraCrud::getInputs($this->model, $record);
 
         if (isset($this->views)) {
-            return view( $this->views . 'edit', compact('record', 'inputs', 'crudData'));            
+            return view( $this->views . '.edit', compact('record', 'inputs', 'crudData'));            
         } else {
             return view( 'lara_crud::edit', compact('record', 'inputs', 'crudData'));
         }

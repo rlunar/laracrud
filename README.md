@@ -11,7 +11,7 @@ Documentation for the package can be found on the [LaraCrud website](http://lara
 Install Package using composer:
 
 ```javascript
-composer require aluna/laracrud
+composer require aluna/laracrud:dev-master
 ```
 
 Add to providers array in the config/app.php file the next entry:
@@ -91,6 +91,12 @@ class ExampleController extends Controller
 	 * @type String
 	 */
 	protected $crudName = 'Example';
+
+	/**
+	 * If you want to overwrite the default views of the package
+	 * @type String
+	 */
+	protected $views = 'vendor.laracrud';
 	
 	/**
 	 * Let IoC Container to resolve Model and assing it to variable.
@@ -113,6 +119,15 @@ The routes will be like this:
 Route::resource('/example', 'ExampleController');
 ```
 
+Extra:
+
+If you want to overwrite or modify the default views, the fist thing is to publish the views into the resources folder:
+
+```shell
+php artisan vendor:publish
+```
+
+The views will be available in resources/vendor/laracrud, feel free to edit them as you please.
 
 ## Contributing
 
