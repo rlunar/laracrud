@@ -6,24 +6,13 @@ use Illuminate\Support\ServiceProvider;
 
 class LaraCrudServiceProvider extends ServiceProvider
 {
+
     /**
-     * Bootstrap the application events.
+     * Indicates if loading of the provider is deferred.
      *
-     * @return void
+     * @var bool
      */
-    public function boot()
-    {
-    	// Load views for CRUD
-        $this->loadViewsFrom(__DIR__.'/views', 'lara_crud');
-
-        $this->publishes([
-            __DIR__.'/views' => base_path('resources/views/vendor/laracrud'),
-        ]);
-
-        // $this->commands([
-		//     Acme\MyCommand::class
-		// ]);
-    }
+    protected $defer = false;
 
     /**
      * Register the service provider.
@@ -32,6 +21,11 @@ class LaraCrudServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
+        $this->publishes([
+            __DIR__.'/views' => base_path('resources/views/vendor/laracrud'),
+        ]);
+
         $this->app->singleton('laracrud', function ($app) {
             return new LaraCrud();
         });
