@@ -16,9 +16,13 @@ class LaraCrudServiceProvider extends ServiceProvider
     	// Load views for CRUD
         $this->loadViewsFrom(__DIR__.'/views', 'lara_crud');
 
-        $this->commands([
-		    Acme\MyCommand::class
-		]);
+        $this->publishes([
+            __DIR__.'/views' => base_path('resources/views/vendor/laracrud'),
+        ]);
+
+        // $this->commands([
+		//     Acme\MyCommand::class
+		// ]);
     }
 
     /**
