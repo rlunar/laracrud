@@ -35,5 +35,5 @@
         "post-update-cmd": [
             "php artisan optimize"
         ]
-    },
+    }
 }
