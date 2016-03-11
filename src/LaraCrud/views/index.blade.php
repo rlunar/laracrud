@@ -86,9 +86,12 @@
 							<a href="{!! url($crudData['crudRoute'].'/'.$result['id'].'/edit') !!}" title="">
 								<button type="button" class="btn btn-info">Update <i class="glyphicon glyphicon-pencil"></i></button>
 							</a>
-							{!! Form::open(['method' => 'delete', 'action' => [$crudData['crudController'].'@destroy', $result['id']], 'style' => 'display: inline;']) !!}
-								<button type="submit" class="btn btn-danger">Delete <i class="glyphicon glyphicon-trash"></i></button>
-							{!! Form::close() !!}
+
+							<form method="POST" action="{{ url($crudData['crudRoute'].'/'.$result['id']) }}" style="display: inline;">
+								{!! csrf_field() !!}
+								<input name="_method" type="hidden" value="DELETE" />
+								<button type="submit" class="btn btn-danger">Delete <i class="glyphicon glyphicon-trash"></i></button>								
+							</form>
 						</td>
 					</tr>
 				@endforeach
