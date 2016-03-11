@@ -15,6 +15,17 @@ class LaraCrudServiceProvider extends ServiceProvider
     protected $defer = false;
 
     /**
+     * Bootstrap the application events.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        // Load views for CRUD
+        $this->loadViewsFrom(__DIR__.'/views', 'lara_crud');
+    }
+
+    /**
      * Register the service provider.
      *
      * @return void

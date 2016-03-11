@@ -37,7 +37,7 @@ trait LaraCrudController
             'results' => LaraCrud::displayForeignLinks($this->model)
         ];
         
-        return view('lara_crud::index', compact('table', 'crudData'));
+        return view( $this->views . 'index', compact('table', 'crudData'));
     }
 
     /**
@@ -55,7 +55,7 @@ trait LaraCrudController
 
         $inputs = LaraCrud::getInputs($this->model);
 
-        return view('lara_crud::create', compact('inputs', 'crudData'));
+        return view( $this->views . 'create', compact('inputs', 'crudData'));
     }
 
     /**
@@ -94,7 +94,7 @@ trait LaraCrudController
 
         $inputs = LaraCrud::getInputs($this->model, $personal, true);
 
-        return view('lara_crud::show', compact('personal', 'inputs', 'crudData'));
+        return view( $this->views . 'show', compact('personal', 'inputs', 'crudData'));
     }
 
     /**
@@ -115,7 +115,7 @@ trait LaraCrudController
 
         $inputs = LaraCrud::getInputs($this->model, $personal);
 
-        return view('lara_crud::edit', compact('personal', 'inputs', 'crudData'));
+        return view( $this->views . 'edit', compact('personal', 'inputs', 'crudData'));
     }
 
     /**
