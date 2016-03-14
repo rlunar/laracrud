@@ -28,14 +28,13 @@
 		                <span class="icon-bar"></span>
 		                <span class="icon-bar"></span>
 		            </button>
-		            <a class="navbar-brand" href="#">Laravel CRUD</a>
+		            <a class="navbar-brand" href="#">LaraCRUD</a>
 		        </div>
 
 		        <!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li><a href="{{ url('/company') }}">Company <span class="sr-only">(current)</span></a></li>
-						<li><a href="{{ url('/personal') }}">Personal</a></li>
+						<li><a href="{{ url('/example') }}">Example <span class="sr-only">(current)</span></a></li>
 					</ul>
 				</div><!-- /.navbar-collapse -->
 
