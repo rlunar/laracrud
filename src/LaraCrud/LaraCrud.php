@@ -30,6 +30,7 @@ abstract class LaraCrud
         return \DB::table('information_schema.key_column_usage')
             ->where('TABLE_SCHEMA', env('DB_DATABASE'))
             ->where('TABLE_NAME', $model->getTable())
+            ->where('CONSTRAINT_NAME', 'NOT LIKE', '%_unique')
             ->whereNotIn('COLUMN_NAME', array('id'))
             ->get();
     }
