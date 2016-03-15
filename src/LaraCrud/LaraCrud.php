@@ -169,6 +169,9 @@ abstract class LaraCrud
             case 'timestamp':
                 return self::getTimestampInput($header, $values, $readonly);
                 break;
+            case 'enum':
+                return self::getEnumInput($header, $values, $readonly);
+                break;
         }
     }
 
@@ -193,6 +196,17 @@ abstract class LaraCrud
     private static function getReadOnly($readonly = false)
     {
         return $readonly ? 'readonly="true"' : '';
+    }
+
+    /**
+     * Return if input has disabled capability
+     *
+     * @param boolean $disabled
+     * @return string
+     */
+    private static function getDisabled($disabled = false)
+    {
+        return $disabled ? 'disabled' : '';
     }
 
     /**
@@ -326,6 +340,59 @@ abstract class LaraCrud
         $timestampInput = str_replace('{readonly}', $readonly, $timestampInput);
 
         return $timestampInput;
+    }
+
+    /**
+     * Build Enum Dropdown
+     * 
+     * @param  StdObj  $header
+     * @param  array   $values
+     * @param  boolean $readonly
+     * @return string
+     */
+    private static function getEnumInput($header, $values = array(), $readonly)
+    {
+        $options     = self::getEnumOptions($header);
+
+        $value       = self::getValue($header, $values);
+        $disabled    = self::getDisabled($readonly);
+        $required    = self::getRequired($header);
+        $title       = self::getPrettyTitle($header->column_name);
+        $optionsHtml = self::getOptions($options, $value, $title);
+
+        $enumInput   = file_get_contents(__DIR__ . '/templates/enum_input.html');
+        $enumInput   = str_replace('{column_name}', $header->column_name, $enumInput);
+        $enumInput   = str_replace('{title}', $header->title, $enumInput);
+        $enumInput   = str_replace('{value}', $value, $enumInput);
+        $enumInput   = str_replace('{required}', $required, $enumInput);
+        $enumInput   = str_replace('{disabled}', $disabled, $enumInput);
+        $enumInput   = str_replace('{optionsHtml}', $optionsHtml, $enumInput);
+        
+        return $enumInput;
+    }
+
+    /**
+     * Get Options for Enum Dropdow
+     * 
+     * @param  StdObj $header
+     * @return string
+     */
+    private static function getEnumOptions($header)
+    {
+
+        preg_match("/^enum\(\'(.*)\'\)$/", $header->column_type, $matches);
+        $enum = explode("','", $matches[1]);
+
+        $options = array();
+
+        foreach ($enum as $option) {
+            $obj       = new \stdClass;
+            $obj->id   = $option;
+            $obj->name = $option;
+            $options[] = $obj;
+        }
+
+        return $options;
     }
 
     /**

@@ -118,7 +118,7 @@ trait LaraCrudController
      * Update row data
      * 
      * @param  Illuminate\Http\Request $request
-     * @param  integer 				   $id
+     * @param  integer                 $id
      * @return Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
