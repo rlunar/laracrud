@@ -1,0 +1,1 @@
+{{ $event->user->name }} updated a new user [ {{ $event->subject->name }} ] {{ $event->created_at->diffForHumans() }}

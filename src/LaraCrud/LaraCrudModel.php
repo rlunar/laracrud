@@ -2,10 +2,39 @@
 
 namespace LaraCrud;
 
+use Exception;
 use LaraCrud\LaraCrudGrammar;
 
 trait LaraCrudModel
 {
+
+    /**
+     * Record Activity
+     */
+    use LaraCrudRecordActivity;
+
+    /**
+     * Events available to log
+     * @var [type]
+     */
+    protected static $recordEvents = ['created','updated','deleted'];
+
+    /**
+     * Log Activity
+     * 
+     * @param  string                       $name
+     * @param  Illuminate\Database\Eloquent $related
+     * @return boolean
+     */
+    public function logActivity($name, $related)
+    {
+        if (!method_exists($related, 'recordActivity')) {
+            throw new Exception("...");
+        }
+        
+        return $related->recordActivity($name);
+    }
+
     /**
      * Get headers from DB Schema
      * @return array

@@ -2,7 +2,9 @@
 
 namespace LaraCrud;
 
+use Auth;
 use Event;
+use App\User;
 use ReflectionClass;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Validator;
@@ -81,6 +83,8 @@ trait LaraCrudController
         flash()->success('Great!', 'A new '.$this->crudName.' has been created');
 
         $this->triggerEvent('store', $request, $result);
+
+        Auth::user()->logActivity('created', $result);
         
         return redirect($this->route);
     }
@@ -139,11 +143,14 @@ trait LaraCrudController
     {
         $this->validate($request, $this->model->getRules());
 
-        $result = $this->model->findOrFail($id)->update($request->all());
+        $record = $this->model->findOrFail($id);
+        $result = $record->update($request->all());
 
         flash()->success('Great!', 'The '.$this->crudName.' has been updated');
 
-        $this->triggerEvent('update', $request, $result);
+        $this->triggerEvent('update', $request, $record);
+
+        Auth::user()->logActivity('updated', $record);
         
         return redirect($this->route.'/'.$id);
     }
@@ -156,11 +163,14 @@ trait LaraCrudController
      */
     public function destroy($id)
     {
-        $result = $this->model->findOrFail($id)->delete();
+        $record = $this->model->findOrFail($id);
+        $result = $record->delete();
 
         flash()->success('Great!', 'The '.$this->crudName.' has been deleted');
 
-        $this->triggerEvent('destroy', null, $result);
+        $this->triggerEvent('destroy', null, $record);
+
+        Auth::user()->logActivity('deleted', $record);
 
         return redirect($this->route);
     }

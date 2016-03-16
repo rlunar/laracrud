@@ -37,6 +37,10 @@ class LaraCrudServiceProvider extends ServiceProvider
             __DIR__.'/views' => base_path('resources/views/vendor/laracrud'),
         ]);
 
+        $this->publishes([
+            __DIR__.'/database/migrations/' => database_path('migrations')
+        ], 'migrations');
+
         $this->app->singleton('laracrud', function ($app) {
             return new LaraCrud();
         });
