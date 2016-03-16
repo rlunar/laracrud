@@ -195,9 +195,11 @@ trait LaraCrudController
      * Trigger Event if defined on events property
      * 
      * @param  string $event
+     * @param  Object $request
+     * @param  Object $result
      * @return void
      */
-    private function triggerEvent($event, Request $request, $result)
+    private function triggerEvent($event, $request = null, $result = null)
     {
         if (in_array($event, array_keys($this->events))) {
             $event       = $this->events[$event];
