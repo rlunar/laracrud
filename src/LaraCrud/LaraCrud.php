@@ -2,9 +2,9 @@
 
 namespace LaraCrud;
 
+use LaraCrud\LaraCrud;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
-use LaraCrud\LaraCrud;
 
 abstract class LaraCrud
 {
@@ -74,7 +74,7 @@ abstract class LaraCrud
                 if (in_array($relationship->COLUMN_NAME, array_keys($row))) {
                     $foreignData = self::getForeignData($relationship, $row[$relationship->COLUMN_NAME]);
                     if (!empty($foreignData)) {
-                        $row[$relationship->COLUMN_NAME] = $foreignData[0]->name;                        
+                        $row[$relationship->COLUMN_NAME] = $foreignData[0]->name;
                     }
                 }
             }
@@ -113,12 +113,11 @@ abstract class LaraCrud
     public static function getInputs(Model $model, $values = array(), $readonly = false)
     {
         $tableRelationShips = self::getRelationShips($model);
-
-        $headers          = $model->getHeaders();
-        $inputs           = array();
+        $headers            = $model->getHeaders();
+        $inputs             = array();
 
         foreach ($headers as $header) {
-            if ($header->column_name === 'id') {
+            if ($header->column_name === 'id' || !in_array($header->column_name, $model->getFillable())) {
                 continue;
             }
 
@@ -259,7 +258,14 @@ abstract class LaraCrud
         $readonly     = self::getReadOnly($readonly);
         $required     = self::getRequired($header);
         
-        $varcharInput = file_get_contents(__DIR__ . '/templates/varchar_input.html');
+        if (strpos(strtolower($header->column_name), 'email') !== false) {
+            $varcharInput = file_get_contents(__DIR__ . '/templates/email_input.html');
+        } elseif (strpos(strtolower($header->column_name), 'password') !== false) {
+            $varcharInput = file_get_contents(__DIR__ . '/templates/password_input.html');
+        } else {
+            $varcharInput = file_get_contents(__DIR__ . '/templates/varchar_input.html');
+        }
+
         $varcharInput = str_replace('{column_name}', $header->column_name, $varcharInput);
         $varcharInput = str_replace('{title}', $header->title, $varcharInput);
         $varcharInput = str_replace('{value}', $value, $varcharInput);
@@ -379,7 +385,6 @@ abstract class LaraCrud
      */
     private static function getEnumOptions($header)
     {
-
         preg_match("/^enum\(\'(.*)\'\)$/", $header->column_type, $matches);
         $enum = explode("','", $matches[1]);
 

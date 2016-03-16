@@ -48,54 +48,54 @@
 		</div>
 		<hr>
 		<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
-	        <thead>
-	            <tr>
-	            	@foreach($table['headers'] as $header)
-	            		@if($header->column_name !== 'id')
-	                		<th>{{ $header->title }}</th>
-	                	@endif
-	                @endforeach
-	                <th>Actions</th>
-	            </tr>
-	        </thead>
-	 
-	        <tfoot>
-	            <tr>
-	                @foreach($table['headers'] as $header)
-	                	@if($header->column_name !== 'id')
-	                		<th>{{ $header->title }}</th>
-	                	@endif
-	                @endforeach
-	                <th>Actions</th>
-	            </tr>
-	        </tfoot>
-	 
-	        <tbody>
-				@foreach($table['results'] as $result)
-					<tr>
-						@foreach($result as $key => $value)
-							@if ($key !== 'id')
-								<td>{{ $value }}</td>
-							@endif
-						@endforeach
-						<td>
-							<a href="{!! url($crudData['crudRoute'].'/'.$result['id']) !!}" title="">
-								<button type="button" class="btn btn-primary">View <i class="glyphicon glyphicon-eye-open"></i></button>
-							</a>
-							<a href="{!! url($crudData['crudRoute'].'/'.$result['id'].'/edit') !!}" title="">
-								<button type="button" class="btn btn-info">Update <i class="glyphicon glyphicon-pencil"></i></button>
-							</a>
+            <thead>
+                <tr>
+                    @foreach($table['headers'] as $header)
+                        @if($header->column_name !== 'id' && in_array(strtolower($header->column_name), $table['displayable']))
+                            <th>{{ $header->title }}</th>
+                        @endif
+                    @endforeach
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-							<form method="POST" action="{{ url($crudData['crudRoute'].'/'.$result['id']) }}" style="display: inline;">
-								{!! csrf_field() !!}
-								<input name="_method" type="hidden" value="DELETE" />
-								<button type="submit" class="btn btn-danger">Delete <i class="glyphicon glyphicon-trash"></i></button>								
-							</form>
-						</td>
-					</tr>
-				@endforeach
-	        </tbody>
-	    </table>
+            <tfoot>
+                <tr>
+                    @foreach($table['headers'] as $header)
+                        @if($header->column_name !== 'id' && in_array(strtolower($header->column_name), $table['displayable']))
+                            <th>{{ $header->title }}</th>
+                        @endif
+                    @endforeach
+                    <th>Actions</th>
+                </tr>
+            </tfoot>
+
+            <tbody>
+                @foreach($table['results'] as $result)
+                    <tr>
+                        @foreach($result as $key => $value)
+                            @if ($key !== 'id' && in_array(strtolower($key), $table['displayable']))
+                                <td>{{ $value }}</td>
+                            @endif
+                        @endforeach
+                        <td>
+                            <a href="{!! url($crudData['crudRoute'].'/'.$result['id']) !!}" title="">
+                                <button type="button" class="btn btn-primary">View <i class="glyphicon glyphicon-eye-open"></i></button>
+                            </a>
+                            <a href="{!! url($crudData['crudRoute'].'/'.$result['id'].'/edit') !!}" title="">
+                                <button type="button" class="btn btn-info">Update <i class="glyphicon glyphicon-pencil"></i></button>
+                            </a>
+
+                            <form method="POST" action="{{ url($crudData['crudRoute'].'/'.$result['id']) }}" style="display: inline;">
+                                {!! csrf_field() !!}
+                                <input name="_method" type="hidden" value="DELETE" />
+                                <button type="submit" class="btn btn-danger">Delete <i class="glyphicon glyphicon-trash"></i></button>                              
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
 
 		<!-- Latest compiled and minified JS -->
 		<script src="https://code.jquery.com/jquery.js"></script>

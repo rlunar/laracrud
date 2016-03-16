@@ -11,7 +11,7 @@ Documentation for the package can be found on the [LaraCrud website](http://lara
 Install Package using composer:
 
 ```javascript
-composer require aluna/laracrud:dev-master
+composer require aluna/laracrud
 ```
 
 Add to providers array in the config/app.php file the next entry:
@@ -65,6 +65,7 @@ The controller must look like this
 namespace App\Http\Controllers;
 
 use App\ExampleModel;
+use Illuminate\Http\Request;
 use LaraCrud\LaraCrudController;
 
 class ExampleController extends Controller
@@ -97,6 +98,27 @@ class ExampleController extends Controller
 	 * @type String
 	 */
 	protected $views = 'vendor.laracrud';
+
+	/**
+     * The attributes that are available in index view.
+     *
+     * @var array
+     */
+    protected $displayable = [
+        'column1', 'column2'
+    ];
+		
+	/**
+	 * Dispatch events on resource events
+	 *
+	 * @type array
+	 */
+    protected $events = [
+    	'store' => [
+			'class'  => 'App\Events\ExampleEvent',
+			'params' => ['result', 'request:password']
+    	]
+    ];
 	
 	/**
 	 * Let IoC Container to resolve Model and assing it to variable.
@@ -108,6 +130,22 @@ class ExampleController extends Controller
 		$this->model = $example;
 	}
 
+	/**
+	 * Method called when post resource has been overwritten
+	 * eg: encrypt password before storing
+	 *
+	 * @param  Illuminate\Http\Request Request $request
+	 * @return Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+	 */
+	public function modifyRequest(Request $request)
+    {
+    	$request->merge([
+			'password'        => bcrypt($request->password)
+    	]);
+
+        return $this->store($request);
+    }
+
 }
 ```
 
@@ -116,7 +154,11 @@ STEP 3:
 The routes will be like this:
 
 ```php
+// Default Laravel Resource
 Route::resource('/example', 'ExampleController');
+
+// Overwrite resource REST method to modify request then calling REST method
+Route::post('/example', 'ExampleController@modifyRequest');
 ```
 
 Extra:
