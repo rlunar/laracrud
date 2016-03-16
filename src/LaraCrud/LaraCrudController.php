@@ -33,9 +33,9 @@ trait LaraCrudController
         ];
         
         if (isset($this->views)) {
-            return view( $this->views . '.index', compact('table', 'crudData'));
+            return view($this->views . '.index', compact('table', 'crudData'));
         } else {
-            return view( 'lara_crud::index', compact('table', 'crudData'));
+            return view('lara_crud::index', compact('table', 'crudData'));
         }
     }
 
@@ -48,11 +48,12 @@ trait LaraCrudController
     {
         $crudData = $this->getCrudData();
         $inputs   = LaraCrud::getInputs($this->model);
+        $rules    = $this->model->getRules();
 
         if (isset($this->views)) {
-            return view( $this->views . '.create', compact('inputs', 'crudData'));
+            return view($this->views . '.create', compact('inputs', 'crudData', 'rules'));
         } else {
-            return view( 'lara_crud::create', compact('inputs', 'crudData'));
+            return view('lara_crud::create', compact('inputs', 'crudData', 'rules'));
         }
     }
 
@@ -88,9 +89,9 @@ trait LaraCrudController
         $inputs   = LaraCrud::getInputs($this->model, $record, true);
 
         if (isset($this->views)) {
-            return view( $this->views . '.show', compact('record', 'inputs', 'crudData'));
+            return view($this->views . '.show', compact('record', 'inputs', 'crudData'));
         } else {
-            return view( 'lara_crud::show', compact('record', 'inputs', 'crudData'));
+            return view('lara_crud::show', compact('record', 'inputs', 'crudData'));
         }
     }
 
@@ -102,16 +103,16 @@ trait LaraCrudController
      */
     public function edit($id)
     {
-        $crudData = $this->getCrudData();        
-        $record   = $this->model->findOrFail($id);        
+        $crudData = $this->getCrudData();
+        $record   = $this->model->findOrFail($id);
         $inputs   = LaraCrud::getInputs($this->model, $record);
+        $rules    = $this->model->getRules();
 
         if (isset($this->views)) {
-            return view( $this->views . '.edit', compact('record', 'inputs', 'crudData'));            
+            return view($this->views . '.edit', compact('record', 'inputs', 'crudData', 'rules'));
         } else {
-            return view( 'lara_crud::edit', compact('record', 'inputs', 'crudData'));
+            return view('lara_crud::edit', compact('record', 'inputs', 'crudData', 'rules'));
         }
-
     }
 
     /**
@@ -162,7 +163,8 @@ trait LaraCrudController
      * 
      * @return array
      */
-    private function getCrudData() {
+    private function getCrudData()
+    {
         $class = explode("\\", get_class());
 
         return [
