@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLaraCrudActivitiesTable extends Migration
+class CreateLaracrudActivitiesTable extends Migration
 {
     /**
      * Run the migrations.
