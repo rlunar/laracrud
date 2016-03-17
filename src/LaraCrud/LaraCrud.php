@@ -262,6 +262,9 @@ abstract class LaraCrud
             $varcharInput = file_get_contents(__DIR__ . '/templates/email_input.html');
         } elseif (strpos(strtolower($header->column_name), 'password') !== false) {
             $varcharInput = file_get_contents(__DIR__ . '/templates/password_input.html');
+            if ($value != '') {
+                $required = '';
+            }
             $value        = '';
         } else {
             $varcharInput = file_get_contents(__DIR__ . '/templates/varchar_input.html');

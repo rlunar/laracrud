@@ -95,30 +95,38 @@ trait LaraCrudModel
         $headers            = $this->getHeaders();
         $rules              = array();
         $tableRelationShips = LaraCrud::getRelationShips($this);
-
+        
         foreach ($headers as $key => $header) {
-            if ($header->column_name !== 'id' && $header->is_nullable === 'NO') {
-                $isForeignKey = LaraCrud::isForeignKey($tableRelationShips, $header->column_name);
 
-                $rules[$header->column_name] = 'required|';
+            $rules[$header->column_name] = '';
 
-                if ($header->data_type != 'date' && !$isForeignKey) {
-                    $rules[$header->column_name] .= 'max:'.(is_null($header->numeric_precision) ? $header->character_maximum_length : $header->numeric_precision).'|';
-                } elseif ($header->data_type == 'date' && !$isForeignKey) {
-                    $rules[$header->column_name] .= 'date|';
-                }
-
-                if ($header->column_name == 'email' && !$isForeignKey) {
-                    $rules[$header->column_name] .= 'email|';
-                }
-
-                if ($isForeignKey) {
-                    $rules[$header->column_name].='not_in:0|';
-                }
-                $rules[$header->column_name] = substr($rules[$header->column_name], 0, -1);
+            if ($header->column_name !== 'id' && strtolower($header->column_name) !== 'password' && $header->is_nullable === 'NO') {
+                $rules[$header->column_name] .= 'required|';
             }
-        }
 
+            $isForeignKey = LaraCrud::isForeignKey($tableRelationShips, $header->column_name);
+            
+            if ($header->column_name !== 'id' && $header->data_type != 'date' && $header->data_type != 'timestamp' && !$isForeignKey) {
+                $rules[$header->column_name] .= 'max:'.(is_null($header->numeric_precision) ? $header->character_maximum_length : $header->numeric_precision).'|';
+            } elseif (($header->data_type == 'date' || $header->data_type == 'timestamp' ) && !$isForeignKey) {
+                $rules[$header->column_name] .= 'date|';
+            }
+
+            if ($header->column_name == 'email' && !$isForeignKey) {
+                $rules[$header->column_name] .= 'email|';
+            }
+
+            if ($isForeignKey) {
+                $rules[$header->column_name].='not_in:0|';
+            }
+            $rules[$header->column_name] = substr($rules[$header->column_name], 0, -1);
+
+            if ($rules[$header->column_name] == '') {
+                unset($rules[$header->column_name]);
+            }
+
+        }
+        
         return $rules;
     }
     
