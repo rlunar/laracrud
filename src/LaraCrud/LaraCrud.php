@@ -254,9 +254,9 @@ abstract class LaraCrud
      */
     private static function getVarcharInput($header, $values = array(), $readonly)
     {
-        $value        = self::getValue($header, $values);
-        $readonly     = self::getReadOnly($readonly);
-        $required     = self::getRequired($header);
+        $value    = self::getValue($header, $values);
+        $readonly = self::getReadOnly($readonly);
+        $required = self::getRequired($header);
         
         if (strpos(strtolower($header->column_name), 'email') !== false) {
             $varcharInput = file_get_contents(__DIR__ . '/templates/email_input.html');
@@ -265,7 +265,9 @@ abstract class LaraCrud
             if ($value != '') {
                 $required = '';
             }
-            $value        = '';
+            $value = '';
+        } elseif (strpos(strtolower($header->column_comment), 'file') !== false) {
+            $varcharInput = file_get_contents(__DIR__ . '/templates/file_input.html');
         } else {
             $varcharInput = file_get_contents(__DIR__ . '/templates/varchar_input.html');
         }
